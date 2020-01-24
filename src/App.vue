@@ -1,28 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header class="md-layout">
+      <md-toolbar class="md-layout-item">
+        <h1>Lista de Contatos</h1>
+      </md-toolbar>
+    </header>
+    <main class="md-layout">
+      <AddContact></AddContact>
+    </main>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Vue from 'vue'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default-dark.css'
+
+import AddContact from './components/addContact/addcontact.component'
+
+Vue.use(VueMaterial)
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    AddContact
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
