@@ -1,5 +1,5 @@
 <template>
-  <div class="md-layout-item md-gutter add-contact">
+  <div class="md-layout-item md-size-100 md-gutter add-contact">
     <md-dialog :md-active.sync="showDialog">
       <form novalidate class="md-layout" @submit.prevent="validateContact">
         <md-card class="md-layout-item md-size-100">
@@ -46,6 +46,7 @@ import './addcontact.component.scss'
 import { validationMixin } from 'vuelidate'
 import { mask } from 'vue-the-mask'
 import { required, minLength } from 'vuelidate/lib/validators'
+import { mapState } from 'vuex'
 
 export default {
   directives: {mask},
@@ -60,8 +61,11 @@ export default {
       contactSaved: false,
       sending: false,
       showDialog: false,
-      lastContact: null
+      lastContact: null,
     }
+  },
+  computed: {
+    ...mapState(['CONTACTS'])
   },
   validations: {
     form: {
@@ -91,6 +95,15 @@ export default {
     },
     saveContact() {
       this.sending = true
+
+      this.$store.dispatch('addContacts', this.form)
+
+      // const baseURI = "http://localhost:3000/contact"
+
+      // this.$http.post(baseURI, {
+      //   name: this.form.name,
+      //   phoneNumber: this.form.phoneNumber,
+      // })
 
       window.setTimeout(() => {
         this.lastContact = `${this.form.name}`
