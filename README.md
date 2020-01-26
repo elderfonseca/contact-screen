@@ -2,12 +2,12 @@
 
 Aplicação na qual foi solicitado uma interface que liste os contatos através de um endpoint.
 
-A aplicação foi feita com Vue e a API foi utilizada foi montada utilizando um JSON Server local.
+A aplicação foi feita com Vue e a API utilizada foi montada utilizando um JSON Server local.
 A API e apenas para teste mas nada impede de usar uma API real.
 
 A interface foi construída usando um modelo de tabelas com as informações solicitadas utilizando o Vue Material com um tema escuro.
 
-Algumas pequenas formatções personalizadas foram feitas utilizando _SASS_.
+Algumas pequenas formatações personalizadas foram feitas utilizando _SASS_.
 
 ### Instalação
 
@@ -27,7 +27,7 @@ npm install -g json-server
 ```
 json-server --watch db.json
 ```
-5. Após a instalação e quando o _JSON Server estiver rodando, em outro terminal execute a aplicação.
+5. Após a instalação e quando o _JSON Server_ estiver rodando, em outro terminal, execute a aplicação.
 ```
 npm run serve
 ```
