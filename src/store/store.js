@@ -15,6 +15,7 @@ export default Axios.create({
   }
 })
 
+//API URL used
 const apiUrl = 'http://localhost:3000/contact/'
 
 export const store = new Vuex.Store({
@@ -26,6 +27,7 @@ export const store = new Vuex.Store({
     CONTACTS: state => state.contacts
   },
   actions: {
+    // Request to load contacts
     loadContacts ({ commit }) {
       axios
         .get(apiUrl)
@@ -34,6 +36,7 @@ export const store = new Vuex.Store({
         commit('SET_CONTACTS', contacts)
         })
     },
+    // Request to add a new contact
     addContacts ({ commit }, contacts) {
       axios
         .post(apiUrl, contacts)
@@ -42,6 +45,7 @@ export const store = new Vuex.Store({
           commit('ADD_CONTACT', contacts)
         })
     },
+    // Request to remove a contact
     removeContact ({ commit }, id) {
       axios
         .delete(apiUrl + id)
@@ -50,6 +54,7 @@ export const store = new Vuex.Store({
           commit('DEL_CONTACT', id)
         })
     },
+    // Request to edit a contact
     editContact ({ commit }, contacts) {
       axios
         .put(apiUrl + contacts.id, contacts)
@@ -59,6 +64,7 @@ export const store = new Vuex.Store({
         })
     }
   },
+  // Mutations used to update the application state according to the API
   mutations: {
     SET_CONTACTS (state, contacts) {
       state.contacts = contacts

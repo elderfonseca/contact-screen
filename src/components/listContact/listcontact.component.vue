@@ -11,7 +11,7 @@
         <md-table-row>
           <md-table-head md-numeric>ID</md-table-head>
           <md-table-head>Nome</md-table-head>
-          <md-table-head>Número</md-table-head>
+          <md-table-head>Telefone Celular</md-table-head>
           <md-table-head>Ações</md-table-head>
         </md-table-row>
         <!-- Iteration that assembles the table with the contacts -->
@@ -50,9 +50,11 @@
               </div>
               <div class="md-layout-item md-size-100">
                 <md-field :class="getValidationClass('phoneNumber')">
-                  <label for="phoneNumber">Telefone</label>
+                  <label for="phoneNumber">Telefone Celular</label>
                   <md-input type="tel" v-mask="['(##) ####-####', '(##) #####-####']" name="phoneNumber" id="phoneNumber" v-model="form.phoneNumber" :disabled="sending" />
                   <span class="md-error" v-if="!$v.form.phoneNumber.required">Telefone obrigatório</span>
+                  <span class="md-error" v-else-if="!$v.form.name.minLength">Telefone Inválido</span>
+                  <span class="md-error" v-else-if="!$v.form.name.maxLength">Telefone Inválido</span>
                 </md-field>
               </div>
             </div>
@@ -60,7 +62,7 @@
           <md-progress-bar md-mode="indeterminate" v-if="sending" />
           <md-card-actions>
             <md-button type="submit" :disabled="sending">Salvar</md-button>
-            <md-button @click="cancelContact" class="md-accent">Cancelar</md-button>
+            <md-button @click="cancelContact" class="md-accent" :disabled="sending">Cancelar</md-button>
           </md-card-actions>
         </md-card>
         <md-snackbar :md-active.sync="contactSaved">O contato {{ lastContact }} foi salvo com sucesso</md-snackbar>
@@ -74,7 +76,7 @@
   import { mapState } from 'vuex'
   import { validationMixin } from 'vuelidate'
   import { mask } from 'vue-the-mask'
-  import { required } from 'vuelidate/lib/validators'
+  import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
   // Custom validation function for the name field
   let wordsArray = ""
@@ -109,13 +111,16 @@
       }
     },
     validations: {
+      // Form validations
       form: {
         name: {
           required,
           numberWords
         },
         phoneNumber: {
-          required
+          required,
+          minLength: minLength(14),
+          maxLength: maxLength(15)
         }
       }
     },
@@ -131,7 +136,8 @@
       'contacts'
     ]),
     methods: {
-      // Checks if the area code is from São Paulo
+      // Checks if the area code is from São Paulo.
+      // Positive case adds the class to the parent item to paint the line blue
       checkDdd() {
         let phonesDdd = document.querySelectorAll(".phone-number")
         for (let phone of phonesDdd) {
@@ -152,13 +158,6 @@
           }
         }
       },
-      // Close the modal and clean the form
-      cancelContact() {
-        this.$v.$reset()
-        this.form.name = null
-        this.form.phoneNumber = null
-        this.showDialog = false
-      },
       // Validation to submit the form
       validateContact() {
         this.$v.$touch()
@@ -178,11 +177,13 @@
           this.$store.dispatch('editContact', this.form)
         }
         window.setTimeout(() => {
-          this.lastContact = `${this.form.name}`
           this.contactSaved = true
+          this.lastContact = `${this.form.name}`
+        }, 1000)
+        window.setTimeout(() => {
           this.sending = false
           this.cancelContact()
-        }, 1500)
+        }, 2500)
       },
       // Remove contact
       removeContact(id) {
@@ -194,7 +195,16 @@
         this.form.id = contact.id
         this.form.name = contact.name
         this.form.phoneNumber = contact.phoneNumber
-      }
+      },
+      // Close the modal and clean the form
+      cancelContact() {
+        this.$v.$reset()
+        this.form.name = null
+        this.form.phoneNumber = null
+        this.contactSaved = false
+        this.lastContact = null
+        this.showDialog = false
+      },
     }
   }
 </script>
