@@ -17,25 +17,19 @@ Caso contrário, consulte o link [`https://www.npmjs.com/get-npm`](https://www.n
 
 Caso use o _Yarn_, sinta-se à vontade para usar os comandos equivalentes.
 
-## Project setup
+1. Clone o repositório de [`https://github.com/elderfonseca/contact-screen.git`](https://github.com/elderfonseca/contact-screen.git).
+2. Execute o `npm install` no diretório raiz.
+3. Instale o _JSON Server_
 ```
-npm install
+npm install -g json-server
 ```
-
-### Compiles and hot-reloads for development
+4. No diretório raiz do projeto execute o _JSON Server_
+```
+json-server --watch db.json
+```
+5. Após a instalação e quando o _JSON Server estiver rodando, em outro terminal execute a aplicação.
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+A aplicação rodara no endereço [`http://localhost:8080/`](http://localhost:8080/) já com alguns registros que estão no arquivo _db.json_ que se encontra na raiz do projeto.
