@@ -3,7 +3,7 @@
 Aplicação na qual foi solicitado uma interface que liste os contatos através de um endpoint.
 
 A aplicação foi feita com Vue e a API utilizada foi montada utilizando um JSON Server local.
-A API e apenas para teste mas nada impede de usar uma API real.
+A API é apenas para teste mas nada impede de usar uma API real.
 
 A interface foi construída usando um modelo de tabelas com as informações solicitadas utilizando o Vue Material com um tema escuro.
 

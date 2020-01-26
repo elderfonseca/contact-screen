@@ -7,7 +7,7 @@
       </md-button>
     </div>
     <div class="md-layout-item md-size-100 md-gutter">
-      <md-table>
+      <md-table class="md-scrollbar table-contact">
         <md-table-row>
           <md-table-head md-numeric>ID</md-table-head>
           <md-table-head>Nome</md-table-head>
@@ -201,6 +201,7 @@
         this.$v.$reset()
         this.form.name = null
         this.form.phoneNumber = null
+        this.form.id = null
         this.contactSaved = false
         this.lastContact = null
         this.showDialog = false
