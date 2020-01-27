@@ -46,7 +46,7 @@
                   <md-input type="text" required="required" name="name" id="name" v-model="form.name" :disabled="sending" />
                   <span class="md-error" v-if="!$v.form.name.required">Nome obrigatório</span>
                   <span class="md-error" v-else-if="!$v.form.name.numberWords">Digite o nome completo sem abreviações</span>
-                  <span class="md-error" v-else-if="!$v.form.name.noNumber">O campo não pode conter números</span>
+                  <span class="md-error" v-else-if="!$v.form.name.noNumber">O campo não pode conter números ou caracteres especiais</span>
                 </md-field>
               </div>
               <div class="md-layout-item md-size-100">
