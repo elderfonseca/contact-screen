@@ -43,25 +43,25 @@
               <div class="md-layout-item md-size-100">
                 <md-field :class="getValidationClass('name')">
                   <label for="name">Nome</label>
-                  <md-input name="name" id="name" v-model="form.name" :disabled="sending" />
+                  <md-input type="text" required="required" name="name" id="name" v-model="form.name" :disabled="sending" />
                   <span class="md-error" v-if="!$v.form.name.required">Nome obrigatório</span>
-                  <span class="md-error" v-else-if="!$v.form.name.numberWords">Nome Inválido</span>
+                  <span class="md-error" v-else-if="!$v.form.name.numberWords">Digite o nome completo sem abreviações</span>
+                  <span class="md-error" v-else-if="!$v.form.name.noNumber">O campo não pode conter números</span>
                 </md-field>
               </div>
               <div class="md-layout-item md-size-100">
                 <md-field :class="getValidationClass('phoneNumber')">
                   <label for="phoneNumber">Telefone Celular</label>
-                  <md-input type="tel" v-mask="['(##) ####-####', '(##) #####-####']" name="phoneNumber" id="phoneNumber" v-model="form.phoneNumber" :disabled="sending" />
+                  <md-input type="tel" required="required" v-mask="['(##) #####-####']" name="phoneNumber" id="phoneNumber" v-model="form.phoneNumber" :disabled="sending" />
                   <span class="md-error" v-if="!$v.form.phoneNumber.required">Telefone obrigatório</span>
-                  <span class="md-error" v-else-if="!$v.form.name.minLength">Telefone Inválido</span>
-                  <span class="md-error" v-else-if="!$v.form.name.maxLength">Telefone Inválido</span>
+                  <span class="md-error" v-else-if="!$v.form.name.minLength">Telefone incompleto</span>
                 </md-field>
               </div>
             </div>
           </md-card-content>
           <md-progress-bar md-mode="indeterminate" v-if="sending" />
           <md-card-actions>
-            <md-button type="submit" :disabled="sending">Salvar</md-button>
+            <md-button type="submit" class="md-primary" :disabled="sending">Salvar</md-button>
             <md-button @click="cancelContact" class="md-accent" :disabled="sending">Cancelar</md-button>
           </md-card-actions>
         </md-card>
@@ -76,17 +76,27 @@
   import { mapState } from 'vuex'
   import { validationMixin } from 'vuelidate'
   import { mask } from 'vue-the-mask'
-  import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+  import { required, minLength } from 'vuelidate/lib/validators'
 
   // Custom validation function for the name field
-  let wordsArray = ""
 
   function numberWords(value) {
+    let wordsArray = ""
     wordsArray = value.split(" ")
     let sizeWords = wordsArray.every(function(word) {
       return word.length >= 3
     })
     if (wordsArray.length >= 2  && wordsArray[1] !== "" && sizeWords === true) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  // Custom validation function to not allow numbers in the name field
+  function noNumber(value) {
+    let alphaExp = /^[A-ZÀ-Ÿ][A-zÀ-ÿ']+\s([A-zÀ-ÿ']\s?)*[A-ZÀ-Ÿ][A-zÀ-ÿ']+$/
+    if (value.match(alphaExp)) {
       return true
     } else {
       return false
@@ -115,12 +125,12 @@
       form: {
         name: {
           required,
-          numberWords
+          numberWords,
+          noNumber
         },
         phoneNumber: {
           required,
-          minLength: minLength(14),
-          maxLength: maxLength(15)
+          minLength: minLength(15)
         }
       }
     },
@@ -145,6 +155,9 @@
           if (textPhone.substr(1, 2) === '11') {
             let itemLine = phone.parentNode
             itemLine.classList.add('ddd-11')
+          } else {
+            let itemLine = phone.parentNode
+            itemLine.classList.remove('ddd-11')
           }
         }
       },
@@ -205,7 +218,7 @@
         this.contactSaved = false
         this.lastContact = null
         this.showDialog = false
-      },
+      }
     }
   }
 </script>

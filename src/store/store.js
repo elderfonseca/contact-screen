@@ -34,6 +34,8 @@ export const store = new Vuex.Store({
         .then(r => r.data)
         .then(contacts => {
         commit('SET_CONTACTS', contacts)
+        }).catch(error => {
+          alert(error.response.data.errors)
         })
     },
     // Request to add a new contact
@@ -43,6 +45,8 @@ export const store = new Vuex.Store({
         .then(r => r.data)
         .then(contacts => {
           commit('ADD_CONTACT', contacts)
+        }).catch(error => {
+          alert(error.response.data.errors)
         })
     },
     // Request to remove a contact
@@ -52,6 +56,8 @@ export const store = new Vuex.Store({
         .then(r => r.data)
         .then(() => {
           commit('DEL_CONTACT', id)
+        }).catch(error => {
+          alert(error.response.data.errors)
         })
     },
     // Request to edit a contact
@@ -61,6 +67,8 @@ export const store = new Vuex.Store({
         .then(r => r.data)
         .then((contacts) => {
           commit('EDIT_CONTACT', contacts)
+        }).catch(error => {
+          alert(error.response.data.errors)
         })
     }
   },
